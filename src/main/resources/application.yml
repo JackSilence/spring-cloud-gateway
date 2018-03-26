@@ -1,0 +1,16 @@
+server:
+  port: 8769
+spring:
+  application:
+    name: cloud-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/
+#以下都非必要! 如果不配置則預設http://gateway_host:gateway_port/服務id小寫/** -> http://想要訪問的Eureka服務id小寫:該服務端口/**
+zuul:
+  ignored-services: eureka-server
+  routes:
+    api: #可隨便寫, 在zuul上唯一即可; 當這裡的值 = service-id時, service-id可以不寫
+      path: /api/** #想要映射到的路徑
+      service-id: cloud-api #Eureka中的serviceId
